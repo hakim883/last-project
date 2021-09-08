@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';import HomeScreen from './screens/HomeScreen';
 import CartScreen from './screens/CartScreen';
 import ProductScreen from './screens/ProductScreen';
+import SigninScreen from './screens/SigninScreen';
 
 
 
@@ -23,7 +24,7 @@ function App() {
       <header className="row">
         <div>
             <Link className="brand" to="/">
-            amazona
+            <span className="z">A</span>dvice <span className="z">E</span>nergie <span className="z">M</span>odern
             </Link>
         </div>
         
@@ -38,6 +39,7 @@ function App() {
         <main>
         <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen}></Route>
+          <Route path="/signin" component={SigninScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">All right reserved</footer>
