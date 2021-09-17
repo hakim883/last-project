@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mg from 'mailgun-js';
 
 export const generateToken = (user) => {
   return jwt.sign(
@@ -7,6 +8,7 @@ export const generateToken = (user) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isSeller: user.isSeller,
     },
     process.env.JWT_SECRET || 'somethingsecret',
     {
@@ -14,6 +16,7 @@ export const generateToken = (user) => {
     }
   );
 };
+
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (authorization) {
@@ -34,11 +37,110 @@ export const isAuth = (req, res, next) => {
     res.status(401).send({ message: 'No Token' });
   }
 };
-
 export const isAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
   } else {
     res.status(401).send({ message: 'Invalid Admin Token' });
   }
+};
+export const isSeller = (req, res, next) => {
+  if (req.user && req.user.isSeller) {
+    next();
+  } else {
+    res.status(401).send({ message: 'Invalid Seller Token' });
+  }
+ };
+export const isSellerOrAdmin = (req, res, next) => {
+  if (req.user && (req.user.isSeller || req.user.isAdmin)) {
+    next();
+  } else {
+    res.status(401).send({ message: 'Invalid Admin/Seller Token' });
+  }
+};
+
+// export const mailgun = () =>
+//   mg({
+//     apiKey: process.env.MAILGUN_API_KEY,
+//     domain: process.env.MAILGUN_DOMIAN,
+//   });
+
+//const mailgun = require("mailgun-js");
+export const mailgun = () =>
+  mg({
+    apiKey: "88f0f6e50607c6271bddcf1d7c720885-a3c55839-81dab28d",
+    domain: "sandbox77c0f79f06c1421e8adb892da143679a.mailgun.org",
+  });
+  // const data = {
+  //   from: "Mailgun Sandbox <postmaster@sandbox77c0f79f06c1421e8adb892da143679a.mailgun.org>",
+  //   to: "polatkgt38@gmail.com",
+  //   subject: "Hello",
+  //   text: "Testing some Mailgun awesomness!"
+  // };
+  // mg.messages().send(data, function (error, body) {
+  //   console.log(body);
+  // });
+  
+
+export const payOrderEmailTemplate = (order) => {
+  return `<h1>Thanks for shopping with us</h1>
+  <p>
+  Hi ${order.user.name},</p>
+  <p>We have finished processing your order.</p>
+  <h2>[Order ${order._id}] (${order.createdAt.toString().substring(0, 10)})</h2>
+  <table>
+  <thead>
+  <tr>
+  <td><strong>Product</strong></td>
+  <td><strong>Quantity</strong></td>
+  <td><strong align="right">Price</strong></td>
+  </thead>
+  <tbody>
+  ${order.orderItems
+    .map(
+      (item) => `
+    <tr>
+    <td>${item.name}</td>
+    <td align="center">${item.qty}</td>
+    <td align="right"> $${item.price.toFixed(2)}</td>
+    </tr>
+  `
+    )
+    .join('\n')}
+  </tbody>
+  <tfoot>
+  <tr>
+  <td colspan="2">Items Price:</td>
+  <td align="right"> $${order.itemsPrice.toFixed(2)}</td>
+  </tr>
+  <tr>
+  <td colspan="2">Tax Price:</td>
+  <td align="right"> $${order.taxPrice.toFixed(2)}</td>
+  </tr>
+  <tr>
+  <td colspan="2">Shipping Price:</td>
+  <td align="right"> $${order.shippingPrice.toFixed(2)}</td>
+  </tr>
+  <tr>
+  <td colspan="2"><strong>Total Price:</strong></td>
+  <td align="right"><strong> $${order.totalPrice.toFixed(2)}</strong></td>
+  </tr>
+  <tr>
+  <td colspan="2">Payment Method:</td>
+  <td align="right">${order.paymentMethod}</td>
+  </tr>
+  </table>
+  <h2>Shipping address</h2>
+  <p>
+  ${order.shippingAddress.fullName},<br/>
+  ${order.shippingAddress.address},<br/>
+  ${order.shippingAddress.city},<br/>
+  ${order.shippingAddress.country},<br/>
+  ${order.shippingAddress.postalCode}<br/>
+  </p>
+  <hr/>
+  <p>
+  Thanks for shopping with us.
+  </p>
+  `;
 };

@@ -1,33 +1,45 @@
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Link, Route } from 'react-router-dom';import HomeScreen from './screens/HomeScreen';
+import { BrowserRouter, Link, Route, NavLink } from 'react-router-dom';
 import { signout } from './actions/userActions';
 import AdminRoute from './components/AdminRoute';
 import PrivateRoute from './components/PrivateRoute';
 import CartScreen from './screens/CartScreen';
-
+import HomeScreen from './screens/HomeScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import OrderScreen from './screens/OrderScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import ProductListScreen from './screens/ProductListScreen';
+import PosteScreen from './screens/PosteScreen';
+import PosteListScreen from './screens/PosteListScreen';
 import ProductScreen from './screens/ProductScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SigninScreen from './screens/SigninScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import PosteEditScreen from './screens/PosteEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
-
-
-
-
-
-
-
-
-
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
+import SellerRoute from './components/SellerRoute';
+import SellerScreen from './screens/SellerScreen';
+import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
+import { listProductCategories, listProducts } from './actions/productActions';
+import LoadingBox from './components/LoadingBox';
+import MessageBox from './components/MessageBox';
+import MapScreen from './screens/MapScreen';
+import DashboardScreen from './screens/DashboardScreen';
+// import SupportScreen from './screens/SupportScreen';
+// import ChatBox from './components/ChatBox';
+import { Contact } from './components/Contact';
+import { About}  from "./components/About";
+import Slide from "./components/Slide"
 function App() {
   const cart = useSelector((state) => state.cart);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -36,18 +48,91 @@ function App() {
     dispatch(signout());
   };
 
-  return (
+  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = productCategoryList;
+  useEffect(() => {
+    dispatch(listProductCategories());
+  }, [dispatch]);
 
+  const [click, setClick] = useState(false);
+
+  const handleClick = () => setClick(!click);
+
+  return (
+    
     <BrowserRouter>
-    <div className="grid-container">
-      <header className="row">
-        <div>
+    
+      <div className="grid-container">
+        <header className="row">
+          <div>
+            <button
+              type="button"
+              className="open-sidebar"
+              onClick={() => setSidebarIsOpen(true)}
+            >
+              <i className="fa fa-bars"></i>
+            </button>
             <Link className="brand" to="/">
-            <span className="z">A</span>dvice <span className="z">E</span>nergie <span className="z">M</span>odern
+              <span className="A">A</span>dvice  <span className="A">E</span>nergie  <span className="A">M</span>odern
             </Link>
-        </div>
-        
-        <Link to="/cart">
+          </div>
+          <div>
+            <Route
+              render={({ history }) => (
+                <SearchBox history={history}></SearchBox>
+              )}
+            ></Route>
+          </div>
+          <div>
+          <NavLink
+                exact
+                to="/products"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+                
+              >
+                Product
+              </NavLink>
+
+
+          <NavLink
+                exact
+                to="/postes"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Poste
+              </NavLink>
+            
+          
+              <NavLink
+                exact
+                to="/contact"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Contact Us
+              </NavLink>
+              <NavLink
+                exact
+                to="/About"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                About Us
+              </NavLink>
+
+            
+            
+            <Link to="/cart">
               Cart
               {cartItems.length > 0 && (
                 <span className="badge">{cartItems.length}</span>
@@ -59,10 +144,10 @@ function App() {
                   {userInfo.name} <i className="fa fa-caret-down"></i>{' '}
                 </Link>
                 <ul className="dropdown-content">
-                <li>
+                  <li>
                     <Link to="/profile">User Profile</Link>
                   </li>
-                <li>
+                  <li>
                     <Link to="/orderhistory">Order History</Link>
                   </li>
                   <li>
@@ -75,7 +160,29 @@ function App() {
             ) : (
               <Link to="/signin">Sign In</Link>
             )}
-             {userInfo && userInfo.isAdmin && (
+            {/* {userInfo && userInfo.isSeller && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Seller <i className="fa fa-caret-down"></i>
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/productlist/seller">Products</Link>
+                  </li>
+                  <li>
+                    <Link to="/postelist/seller">Postes</Link>
+                  </li>
+                  {/* <li>
+                    <Link to="/PostScreen/seller">Posts</Link>
+                  </li> */}
+                  {/* <li>
+                    <Link to="/orderlist/seller">Orders</Link>
+                  </li>
+                  
+                </ul>
+              </div>
+              */}
+            {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <Link to="#admin">
                   Admin <i className="fa fa-caret-down"></i>
@@ -88,21 +195,72 @@ function App() {
                     <Link to="/productlist">Products</Link>
                   </li>
                   <li>
+                    <Link to="/postelist">Postes</Link>
+                  </li>
+                  <li>
                     <Link to="/orderlist">Orders</Link>
                   </li>
                   <li>
                     <Link to="/userlist">Users</Link>
                   </li>
+               
+                  <li>
+                    <Link to="/support">Support</Link>
+                  </li>
                 </ul>
               </div>
             )}
-          </header>
+          </div>
+        </header>
+        <aside className={sidebarIsOpen ? 'open' : ''}>
+          <ul className="categories">
+            <li>
+              <strong>Categories</strong>
+              <button
+                onClick={() => setSidebarIsOpen(false)}
+                className="close-sidebar"
+                type="button"
+              >
+                <i className="fa fa-close"></i>
+              </button>
+            </li>
+            {loadingCategories ? (
+              <LoadingBox></LoadingBox>
+            ) : errorCategories ? (
+              <MessageBox variant="danger">{errorCategories}</MessageBox>
+            ) : (
+              categories.map((c) => (
+                <li key={c}>
+                  <Link
+                    to={`/search/category/${c}`}
+                    onClick={() => setSidebarIsOpen(false)}
+                  >
+                    {c}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+        </aside>
         <main>
-        <Route path="/cart/:id?" component={CartScreen}></Route>
-        <Route path="/product/:id" component={ProductScreen} exact></Route>
-        <Route
+        <Route path="/about" component={About} />
+          <Route path="/postes/:id" component={PosteListScreen}></Route>
+          <Route path="/contact" component={Contact}></Route>
+          <Route path="/seller/:id" component={SellerScreen}></Route>
+          <Route path="/cart/:id?" component={CartScreen}></Route>
+          {/* <Route path="/product/:id" component={ProductScreen} exact></Route> */}
+          <Route path="/products/:id" component={ProductScreen} exact></Route>
+
+          <Route
             path="/product/:id/edit"
             component={ProductEditScreen}
+            exact
+          ></Route>
+                    <Route path="/poste/:id" component={PosteScreen} exact></Route>
+
+           <Route
+            path="/poste/:id/edit"
+            component={PosteEditScreen}
             exact
           ></Route>
           <Route path="/signin" component={SigninScreen}></Route>
@@ -112,25 +270,95 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
           <Route path="/order/:id" component={OrderScreen}></Route>
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+          <Route
+            path="/search/name/:name?"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category/name/:name"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
+            component={SearchScreen}
+            exact
+          ></Route>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
           ></PrivateRoute>
+          <PrivateRoute path="/map" component={MapScreen}></PrivateRoute>
           <AdminRoute
             path="/productlist"
             component={ProductListScreen}
+            exact
           ></AdminRoute>
-           <AdminRoute
+          <AdminRoute
+            path="/productlist/pageNumber/:pageNumber"
+            component={ProductListScreen}
+            exact
+          ></AdminRoute>
+          <AdminRoute
+            path="/postelist"
+            component={PosteListScreen}
+            exact
+          ></AdminRoute>
+          <AdminRoute
+            path="/postelist/pageNumber/:pageNumber"
+            component={PosteListScreen}
+            exact
+          ></AdminRoute>
+          <AdminRoute
             path="/orderlist"
             component={OrderListScreen}
+            exact
           ></AdminRoute>
+          <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
+          <AdminRoute
+            path="/user/:id/edit"
+            component={UserEditScreen}
+          ></AdminRoute>
+
+          <AdminRoute
+            path="/dashboard"
+            component={DashboardScreen}
+          ></AdminRoute>
+          {/* <AdminRoute path="/support" component={SupportScreen}></AdminRoute> */}
+
+          <SellerRoute
+            path="/productlist/seller"
+            component={ProductListScreen}
+          ></SellerRoute>
+           <SellerRoute
+            path="/postelist/seller"
+            component={PosteListScreen}
+          ></SellerRoute>
+          <SellerRoute
+            path="/orderlist/seller"
+            component={OrderListScreen}
+          ></SellerRoute>
+{/* <Route path="/PostScreen" component={PostScreen}></Route> */}
           <Route path="/" component={HomeScreen} exact></Route>
+        
+          <Slide />
         </main>
-        <footer className="row center">All right reserved</footer>
+        
+        <footer className="row center">
+          {/* {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />} */}
+          
+          <div>All right reserved</div>{' '}
+        </footer>
       </div>
     </BrowserRouter>
-
-
+    
   );
 }
+
 export default App;

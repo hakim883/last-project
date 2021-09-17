@@ -1,4 +1,13 @@
 const data = {
+  postes: [
+    {
+      _id: '1',
+      name: 'Nike Slim Shirt',
+      image: '/images/p.jpg',
+      rating: 4.5,
+      numReviews: 10,
+      description: 'high quality product',
+    }],
     products: [
       {
         _id: '1',

@@ -1,23 +1,45 @@
 import bcrypt from 'bcryptjs';
 
+
+
+
 const data = {
+  postes: [
+    {
+      _id: '1',
+      name: 'Nike Slim Shirt',
+      image: '/images/p.jpg',
+      rating: 4.5,
+      numReviews: 10,
+      description: 'high quality product',
+    }],
   users: [
     {
       name: 'hakim',
       email: 'hakim@admin.com',
       password: bcrypt.hashSync('1234', 8),
       isAdmin: true,
+      isSeller: true,
+      seller: {
+        
+        name: 'Puma',
+        logo: '/images/p.png',
+        description: 'best seller',
+        rating: 4.5,
+        numReviews: 120,
     },
+  },
     {
       name: 'chaabani',
       email: 'chaabani@admin.com',
       password: bcrypt.hashSync('12345', 8),
       isAdmin: false,
+     
     },
   ],
     products: [
       {
-        
+       
         name: 'Nike Slim Shirt',
         category: 'Shirts',
         image: '/images/p.jpg',
@@ -27,9 +49,10 @@ const data = {
         rating: 4.5,
         numReviews: 10,
         description: 'high quality product',
+       
       },
       {
-        
+    
         name: 'Adidas Fit Shirt',
         category: 'Shirts',
         image: '/images/p.jpg',
@@ -39,9 +62,10 @@ const data = {
         rating: 4.0,
         numReviews: 10,
         description: 'high quality product',
+       
       },
       {
-        
+      
         name: 'Lacoste Free Shirt',
         category: 'Shirts',
         image: '/images/p.jpg',
@@ -51,9 +75,10 @@ const data = {
         rating: 4.8,
         numReviews: 17,
         description: 'high quality product',
+        
       },
       {
-        
+      
         name: 'Nike Slim Pant',
         category: 'Pants',
         image: '/images/p.jpg',
@@ -63,9 +88,10 @@ const data = {
         rating: 4.5,
         numReviews: 14,
         description: 'high quality product',
+       
       },
       {
-        
+      
         name: 'Puma Slim Pant',
         category: 'Pants',
         image: '/images/p.jpg',
@@ -75,9 +101,10 @@ const data = {
         rating: 4.5,
         numReviews: 10,
         description: 'high quality product',
+        
       },
       {
-        
+       
         name: 'Adidas Fit Pant',
         category: 'Pants',
         image: '/images/p.jpg',
@@ -87,6 +114,7 @@ const data = {
         rating: 4.5,
         numReviews: 15,
         description: 'high quality product',
+        
       },
     ],
   };
