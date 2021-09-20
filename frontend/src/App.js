@@ -25,19 +25,21 @@ import SellerRoute from './components/SellerRoute';
 import SellerScreen from './screens/SellerScreen';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
-import { listProductCategories } from './actions/productActions';
+import { listProductCategories, listProducts } from './actions/productActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 import MapScreen from './screens/Map';
 import DashboardScreen from './screens/DashboardScreen';
-
+import Product from './components/Product';
+import postsrch from './screens/postsrch'
 import  Contact  from './components/Contact';
 import  About  from "./components/About";
 // import { listPostes } from './actions/posteActions';
-import ss from './screens/ss';
+
 import PosteScreen from './screens/PosteScreen';
 import PosteEditScreen from './screens/PosteEditScreen';
 import PosteListScreen from './screens/PosteListScreen';
+import { productListReducer } from './reducers/productReducer';
 // import PosteScreen from './screens/PosteScreen';
 
 function App() {
@@ -87,7 +89,7 @@ function App() {
           <div>
           <Link to="about">About Us </Link>
 <Link to="contact">Contact Us </Link>
-<Link to="/poste/:id"
+<Link to="all-postes"
 
 
 
@@ -97,8 +99,9 @@ function App() {
 
 
 
->Postes </Link>
-<Link to="/product/:id">Products </Link>
+>Postes </Link> 
+<Link to="all-products">Products </Link> 
+{/* {/pro/$id} */}
 
             <Link to="/cart">
               Cart
@@ -206,7 +209,14 @@ function App() {
           </ul>
         </aside>
         <main>
-        <ss />
+        
+         <Route path="/all-products" component={SearchScreen}></Route> 
+         <Route path="/all-postes" component={postsrch}></Route> 
+        {/* <Route path="/f" render={(props) => <Product {...props}/>}/> */}
+        {/* <Route path="/users/:id" render={() => <listProducts {}/>}/> */}
+        {/* <Route exact path="/f" render={(props) => <productListScreen movies={products} {...props} />} /> */}
+
+
           <Route path="/seller/:id" component={SellerScreen}></Route>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} exact></Route>

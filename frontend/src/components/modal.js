@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { detailsUser, updateUserProfile } from '../actions/userActions';
-import LoadingBox from  '../components/LoadingBox'
-import MessageBox from '../components/MessageBox';
+import LoadingBox from './LoadingBox';
+import MessageBox from './MessageBox';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
-import { Button, Modal } from 'react-bootstrap'
 
 export default function ProfileScreene() {
   const [name, setName] = useState('');
@@ -60,11 +59,6 @@ export default function ProfileScreene() {
       );
     }
   };
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>
@@ -74,14 +68,6 @@ export default function ProfileScreene() {
           <h3>{email}</h3>
          
         </div>
-        <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-        <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
@@ -136,8 +122,41 @@ export default function ProfileScreene() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
             </div>
-          
-            
+            {user.isSeller && (
+              <>
+                <h2>Seller</h2>
+                <div>
+                  <label htmlFor="sellerName">Seller Name</label>
+                  <input
+                    id="sellerName"
+                    type="text"
+                    placeholder="Enter Seller Name"
+                    value={sellerName}
+                    onChange={(e) => setSellerName(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <label htmlFor="sellerLogo">Seller Logo</label>
+                  <input
+                    id="sellerLogo"
+                    type="text"
+                    placeholder="Enter Seller Logo"
+                    value={sellerLogo}
+                    onChange={(e) => setSellerLogo(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <label htmlFor="sellerDescription">Seller Description</label>
+                  <input
+                    id="sellerDescription"
+                    type="text"
+                    placeholder="Enter Seller Description"
+                    value={sellerDescription}
+                    onChange={(e) => setSellerDescription(e.target.value)}
+                  ></input>
+                </div>
+              </>
+            )}
             <div>
               <label />
               <button className="primary" type="submit">
@@ -146,21 +165,7 @@ export default function ProfileScreene() {
             </div>
           </>
         )}
-   
-    </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    
-    </form>
+      </form>
     </div>
   );
 }
-
-  

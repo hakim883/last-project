@@ -12,7 +12,7 @@ import { listProducts } from '../actions/productActions';
 import { listPostes } from '../actions/posteActions';
 import { listTopSellers } from '../actions/userActions';
 import { Link } from 'react-router-dom';
-import ss from './ss';
+
 // import { Carousel } from 'bootstrap';
 
 
@@ -93,12 +93,14 @@ export default function HomeScreen() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <div className="poste">
-          {postes.length === 0  && <MessageBox>No Poste Found</MessageBox>}
-          <div className="rowscenters">
+          {!postes ? <MessageBox>No Poste Found</MessageBox> :    
+         ( <div className="rowscenters">
             {postes.map((poste) => (
               <Poste key={poste._id} poste={poste}></Poste>
             ))}
           </div>
+         )
+}
         </div>
       )} 
        

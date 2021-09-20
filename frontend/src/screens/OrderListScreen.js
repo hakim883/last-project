@@ -28,6 +28,7 @@ export default function OrderListScreen(props) {
       dispatch(deleteOrder(order._id));
     }
   };
+  const arr =[1,2,3,4,5,6,7]
   return (
     <div>
       <h1>Orders</h1>
@@ -51,12 +52,12 @@ export default function OrderListScreen(props) {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {arr.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.user}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
+                {/* <td>{order.createdAt.substring(0, 10)}</td> */}
+                {/* <td>{order.totalPrice.toFixed(2)}</td> */}
                 <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                 <td>
                   {order.isDelivered
