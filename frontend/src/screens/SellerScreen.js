@@ -54,7 +54,7 @@ export default function SellerScreen(props) {
               ></Rating>
             </li>
             <li>
-              <a href={`mailto:${user.email}`}>Contact Seller</a>
+              <a href={`mailto:${user.email}`}>Contact Vendor</a>
             </li>
             <li>{user.seller.description}</li>
           </ul>

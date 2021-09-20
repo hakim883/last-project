@@ -1,0 +1,48 @@
+.contact {
+    min-height: 100vh;
+    /* width: 100vw; */
+    padding: 10px 10px 10px 10px;
+    background:rgb(243, 235, 220);
+    color: slategray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .forme {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    align-items: left;
+    color: black;
+    background: white;
+  }
+  
+
+  
+  
+
+  
+  .forme button {
+    padding: 7px 10px;
+    width: 200px;
+    background-color: #990000;
+    background-image: linear-gradient(147deg, #990000 0%, #ff0000 74%);
+    color: white;
+    outline: none;
+    border-radius: 17px;
+    border: none;
+    transition: 0.3s ease;
+  }
+  
+  
+  
+  .contact_text a {
+    text-decoration: none;
+    color:teal;
+    cursor: pointer;
+    font-weight: 600;
+  }

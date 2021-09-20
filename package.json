@@ -22,6 +22,8 @@
     "pakage.json": "^1.0.0",
     "react-google-charts": "^3.0.15",
     "react-paypal-button-v2": "^2.6.3",
+    "react-slick": "^0.28.1",
+    "slick-carousel": "^1.8.1",
     "socket.io": "^4.2.0",
     "socket.io-client": "^4.2.0"
   },

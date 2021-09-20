@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import Product from '../components/Product';
@@ -11,9 +12,8 @@ import { listProducts } from '../actions/productActions';
 import { listPostes } from '../actions/posteActions';
 import { listTopSellers } from '../actions/userActions';
 import { Link } from 'react-router-dom';
-
-
-
+import ss from './ss';
+// import { Carousel } from 'bootstrap';
 
 
 
@@ -24,7 +24,7 @@ export default function HomeScreen() {
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
   const posteList = useSelector((state) => state.posteList);
-  const {   postes } = posteList;
+  const {    postes } = posteList;
   
   
   const userTopSellersList = useSelector((state) => state.userTopSellersList);
@@ -42,15 +42,13 @@ export default function HomeScreen() {
     dispatch(listPostes({}));
     dispatch(listTopSellers());
   }, [dispatch]);
+
+
   return (
+    
     <div>
-
-
-
-
-
-
-      {/* <h2>Top Sellers</h2>
+   
+      <h2>Best vendors</h2>
       {loadingSellers ? (
         <LoadingBox></LoadingBox>
       ) : errorSellers ? (
@@ -58,7 +56,8 @@ export default function HomeScreen() {
       ) : (
         <>
           {sellers.length === 0 && <MessageBox>No Seller Found</MessageBox>}
-          <Carousel showArrows autoPlay showThumbs={false}>
+          <Carousel showArrows autoPlay showThumbs={true}>
+           {/* <Carousel showArrows autoplay={true} autoplayTimeout={5000} autoplayHoverPause={false} showThumbs={true}> */}
             {sellers.map((seller) => (
               <div key={seller._id}>
                 <Link to={`/seller/${seller._id}`}>
@@ -69,7 +68,9 @@ export default function HomeScreen() {
             ))}
           </Carousel>
         </>
-      )} */}
+      )}
+      
+    
       <h2> Products</h2>
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -85,26 +86,31 @@ export default function HomeScreen() {
           </div>
         </>
       )}
-       <h2>Featured Postes</h2>
+         <h2> Postes</h2>
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <>
-          {postes.length === 0 && <MessageBox>No Poste Found</MessageBox>}
-          <div className="row center">
+        <div className="poste">
+          {postes.length === 0  && <MessageBox>No Poste Found</MessageBox>}
+          <div className="rowscenters">
             {postes.map((poste) => (
               <Poste key={poste._id} poste={poste}></Poste>
             ))}
           </div>
-        </>
-      )}
+        </div>
+      )} 
+       
+        
+             
+        
+      
       
        
      
     </div>
     
-    
+   
   );
 }

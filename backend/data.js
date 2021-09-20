@@ -4,15 +4,7 @@ import bcrypt from 'bcryptjs';
 
 
 const data = {
-  postes: [
-    {
-      _id: '1',
-      name: 'Nike Slim Shirt',
-      image: '/images/p.jpg',
-      rating: 4.5,
-      numReviews: 10,
-      description: 'high quality product',
-    }],
+  
   users: [
     {
       name: 'hakim',
@@ -117,5 +109,36 @@ const data = {
         
       },
     ],
+
+    postes: [
+      {
+     
+        name: 'Nike Slim Shirt',
+        image: '/images/p.jpg',
+        rating: 4.5,
+        numReviews: 10,
+        description: 'high quality product',
+      },
+    
+    
+    
+      {
+     
+        name: 'Nike Slim Shirt',
+        image: '/images/p.jpg',
+        rating: 4.5,
+        numReviews: 10,
+        description: 'high quality product',
+      }
+    
+    
+    
+    
+    
+    ],
+
+
+
+
   };
   export default data;

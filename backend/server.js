@@ -1,4 +1,3 @@
-
 // import express from 'express';
 // import mongoose from 'mongoose';
 // import productRouter from './routers/productRouter.js';
@@ -87,13 +86,13 @@
 
 
 
-import http from 'http';
-import { Server } from 'socket.io';
+// import http from 'http';
+// import { Server } from 'socket.io';
 import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+//import cors from 'cors';
+//import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import path from 'path';
 import productRouter from './routers/productRouter.js';
 import posteRouter from './routers/posteRouter.js';
@@ -123,17 +122,17 @@ import uploadRouter from './routers/uploadRouter.js';
 // const categoryRoutes = require('./routes/category');
 // const tagRoutes = require('./routes/tag');
 
-
+//dotenv.config();
 
 const app = express();
-dotenv.config();
+
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '30mb', extended: true }))
-app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors());
+// app.use(bodyParser.json({ limit: '30mb', extended: true }))
+// app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
+// app.use(cors());
 // app.use(morgan('dev'));
 // app.use(cookieParser());
 // app.use('/', Router);
@@ -153,7 +152,7 @@ app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/postes', posteRouter);
-
+app.use('/api/orders', orderRouter);
 // app.use('/posts',router);
 //app.use('/api', blogRoutes);
 // app.use('/api', authRoutes);
@@ -162,14 +161,22 @@ app.use('/api/postes', posteRouter);
 // app.use('/api', tagRoutes);
 //app.use('/api/postMessages',postMessageRoutes)
 
-app.use('/api/orders', orderRouter);
+//app.use('/api/orders', orderRouter);
+const PAYPAL_CLIENT_ID=`AVXVO4ZMmE3HcDWhwgoPxJbvu630zHemSicj2eB8M9uMk-BVfWJu9coHn9eAFad3GSMEGw1uOU0Sffh1`
 app.get('/api/config/paypal', (req, res) => {
-  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+  res.send(PAYPAL_CLIENT_ID || 'sb');
 });
-const g=`AIzaSyAX9DZe0JBTlcw8Hntt`
+// const g=`AIzaSyAX9DZe0JBTlcw8Hntt`
+// app.get('/api/config/google', (req, res) => {
+//   res.send( || '');
+// });
+// const GOOGLE_API_KEY=`AIzaSyC0t0XwR_nDR8uNw0sarqZGIUyJUcmaUQ8`
+const GOOGLE_API_KEY=`AIzaSyAYzR_auxNwyFwtJ9annwb2xm8LVE8OFR8`
 app.get('/api/config/google', (req, res) => {
-  res.send(g || '');
+  res.send(GOOGLE_API_KEY || '');
 });
+
+
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(express.static(path.join(__dirname, '/frontend/build')));
