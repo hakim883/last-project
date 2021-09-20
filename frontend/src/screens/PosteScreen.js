@@ -57,7 +57,7 @@ export default function PosteScreen(props) {
           <div className="row top">
             <div className="col-2">
               <img
-                className="large"
+                className="medium"
                 src={poste.image}
                 alt={poste.name}
               ></img>
@@ -67,45 +67,23 @@ export default function PosteScreen(props) {
                 <li>
                   <h1>{poste.name}</h1>
                 </li>
+               
+               
+                <li>
+                  Description:
+                  <p>{poste.description}</p>
+                </li>
+
+
                 <li>
                   <Rating
                     rating={poste.rating}
                     numReviews={poste.numReviews}
                   ></Rating>
                 </li>
-               
-                <li>
-                  Description:
-                  <p>{poste.description}</p>
-                </li>
               </ul>
             </div>
-            <div className="col-1">
-              <div className="card card-body">
-                <ul>
-                  <li>
-                    Seller{' '}
-                    <h2>
-                      <Link to={`/seller/${poste.seller._id}`}>
-                        {poste.seller.seller.name}
-                      </Link>
-                    </h2>
-                    <Rating
-                      rating={poste.seller.seller.rating}
-                      numReviews={poste.seller.seller.numReviews}
-                    ></Rating>
-                  </li>
-                  <li>
-                    <div className="row">
-                    </div>
-                  </li>
-                
-                 
-                   
-                  
-                </ul>
-              </div>
-            </div>
+           
           </div>
           <div>
             <h2 id="reviews">Reviews</h2>
@@ -178,3 +156,7 @@ export default function PosteScreen(props) {
     </div>
   );
 }
+
+
+
+

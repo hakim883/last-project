@@ -1,7 +1,7 @@
 const data = {
   postes: [
     {
-      _id: '1',
+      _id: '74',
       name: 'Nike Slim Shirt',
       image: '/images/p.jpg',
       rating: 4.5,
@@ -84,3 +84,4 @@ const data = {
     ],
   };
   export default data;
+
