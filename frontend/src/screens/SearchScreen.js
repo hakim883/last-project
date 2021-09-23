@@ -108,23 +108,7 @@ export default function SearchScreen(props) {
               </ul>
             )}
           </div>
-          <div>
-            <h3>Price</h3>
-            <ul>
-              {prices.map((p) => (
-                <li key={p.name}>
-                  <Link
-                    to={getFilterUrl({ min: p.min, max: p.max })}
-                    className={
-                      `${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''
-                    }
-                  >
-                    {p.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          
           <div>
             <h3>Avg. Customer Review</h3>
             <ul>
