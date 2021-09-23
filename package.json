@@ -9,6 +9,8 @@
     "bcryptjs": "^2.4.3",
     "build": "^0.1.4",
     "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.25.1",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "google-maps-react": "^2.0.6",
@@ -19,6 +21,7 @@
     "mongoose": "^6.0.5",
     "multer": "^1.4.3",
     "multer-gridfs-storage": "^5.0.1",
+    "nodemon": "^2.0.12",
     "pakage.json": "^1.0.0",
     "react-google-charts": "^3.0.15",
     "react-paypal-button-v2": "^2.6.3",
@@ -26,11 +29,8 @@
     "slick-carousel": "^1.8.1",
     "socket.io": "^4.2.0",
     "socket.io-client": "^4.2.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-react": "^7.25.1",
-    "nodemon": "^2.0.12"
+    "stripe": "^8.176.0"
   },
-
   "engines": {
     "node": "12.4.0",
     "npm": "6.9.0"

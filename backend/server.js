@@ -55,12 +55,7 @@
 
 
 
-
-
-
-
-
-
+// const stripe = require('stripe')('sk_test_51Jb6bHLzYjOYkbklPTt85yUJhbY3eMj4kOX31w7qQia640aqRwfnNrlbPNK2DE3byBpc4McaIhh2uo3Ll9CbYevw00xlY4uaM9');
 
 
 
@@ -86,8 +81,8 @@
 
 
 
-// import http from 'http';
-// import { Server } from 'socket.io';
+import http from 'http';
+import { Server } from 'socket.io';
 import express from 'express';
 //import cors from 'cors';
 //import bodyParser from 'body-parser';
@@ -125,6 +120,36 @@ import uploadRouter from './routers/uploadRouter.js';
 //dotenv.config();
 
 const app = express();
+
+// app.use(express.static('public'));
+
+// const YOUR_DOMAIN = 'http://localhost:3000/checkout';
+
+// app.post('/create-checkout-session', async (req, res) => {
+//   const session = await stripe.checkout.sessions.create({
+//     line_items: [
+//       {
+//         // TODO: replace this with the `price` of the product you want to sell
+//         price: '{{PRICE_ID}}',
+//         quantity: 1,
+//       },
+//     ],
+//     payment_method_types: [
+//       'card',
+//     ],
+//     mode: 'payment',
+//     success_url: `${YOUR_DOMAIN}?success=true`,
+//     cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+//   });
+
+//   res.redirect(303, session.url)
+// });
+
+// app.listen(4242, () => console.log('Running on port 4242'));
+
+
+
+
 
 
 
@@ -199,81 +224,81 @@ const port = process.env.PORT || 5000;
 // Connection(username, password);
 
 
-// const httpServer = http.Server(app);
-// const io = new Server(httpServer, { cors: { origin: '*' } });
-// const users = [];
+const httpServer = http.Server(app);
+const io = new Server(httpServer, { cors: { origin: '*' } });
+const users = [];
 
-// io.on('connection', (socket) => {
-//   console.log('connection', socket.id);
-//   socket.on('disconnect', () => {
-//     const user = users.find((x) => x.socketId === socket.id);
-//     if (user) {
-//       user.online = false;
-//       console.log('Offline', user.name);
-//       const admin = users.find((x) => x.isAdmin && x.online);
-//       if (admin) {
-//         io.to(admin.socketId).emit('updateUser', user);
-//       }
-//     }
-//   });
-//   socket.on('onLogin', (user) => {
-//     const updatedUser = {
-//       ...user,
-//       online: true,
-//       socketId: socket.id,
-//       messages: [],
-//     };
-//     const existUser = users.find((x) => x._id === updatedUser._id);
-//     if (existUser) {
-//       existUser.socketId = socket.id;
-//       existUser.online = true;
-//     } else {
-//       users.push(updatedUser);
-//     }
-//     console.log('Online', user.name);
-//     const admin = users.find((x) => x.isAdmin && x.online);
-//     if (admin) {
-//       io.to(admin.socketId).emit('updateUser', updatedUser);
-//     }
-//     if (updatedUser.isAdmin) {
-//       io.to(updatedUser.socketId).emit('listUsers', users);
-//     }
-//   });
+io.on('connection', (socket) => {
+  console.log('connection', socket.id);
+  socket.on('disconnect', () => {
+    const user = users.find((x) => x.socketId === socket.id);
+    if (user) {
+      user.online = false;
+      console.log('Offline', user.name);
+      const admin = users.find((x) => x.isAdmin && x.online);
+      if (admin) {
+        io.to(admin.socketId).emit('updateUser', user);
+      }
+    }
+  });
+  socket.on('onLogin', (user) => {
+    const updatedUser = {
+      ...user,
+      online: true,
+      socketId: socket.id,
+      messages: [],
+    };
+    const existUser = users.find((x) => x._id === updatedUser._id);
+    if (existUser) {
+      existUser.socketId = socket.id;
+      existUser.online = true;
+    } else {
+      users.push(updatedUser);
+    }
+    console.log('Online', user.name);
+    const admin = users.find((x) => x.isAdmin && x.online);
+    if (admin) {
+      io.to(admin.socketId).emit('updateUser', updatedUser);
+    }
+    if (updatedUser.isAdmin) {
+      io.to(updatedUser.socketId).emit('listUsers', users);
+    }
+  });
 
-//   socket.on('onUserSelected', (user) => {
-//     const admin = users.find((x) => x.isAdmin && x.online);
-//     if (admin) {
-//       const existUser = users.find((x) => x._id === user._id);
-//       io.to(admin.socketId).emit('selectUser', existUser);
-//     }
-//   });
+  socket.on('onUserSelected', (user) => {
+    const admin = users.find((x) => x.isAdmin && x.online);
+    if (admin) {
+      const existUser = users.find((x) => x._id === user._id);
+      io.to(admin.socketId).emit('selectUser', existUser);
+    }
+  });
 
-//   socket.on('onMessage', (message) => {
-//     if (message.isAdmin) {
-//       const user = users.find((x) => x._id === message._id && x.online);
-//       if (user) {
-//         io.to(user.socketId).emit('message', message);
-//         user.messages.push(message);
-//       }
-//     } else {
-//       const admin = users.find((x) => x.isAdmin && x.online);
-//       if (admin) {
-//         io.to(admin.socketId).emit('message', message);
-//         const user = users.find((x) => x._id === message._id && x.online);
-//         user.messages.push(message);
-//       } else {
-//         io.to(socket.id).emit('message', {
-//           name: 'Admin',
-//           body: 'Sorry. I am not online right now',
-//         });
-//       }
-//     }
-//   });
-// });
+  socket.on('onMessage', (message) => {
+    if (message.isAdmin) {
+      const user = users.find((x) => x._id === message._id && x.online);
+      if (user) {
+        io.to(user.socketId).emit('message', message);
+        user.messages.push(message);
+      }
+    } else {
+      const admin = users.find((x) => x.isAdmin && x.online);
+      if (admin) {
+        io.to(admin.socketId).emit('message', message);
+        const user = users.find((x) => x._id === message._id && x.online);
+        user.messages.push(message);
+      } else {
+        io.to(socket.id).emit('message', {
+          name: 'Admin',
+          body: 'Sorry. I am not online right now',
+        });
+      }
+    }
+  });
+});
 
-// httpServer.listen(4000, () => {
-//   console.log(`Serve at http://localhost:${port}`);
-// });
+httpServer.listen(4000, () => {
+  console.log(`Serve at http://localhost:${port}`);
+});
 
 app.listen(port, () => {
   console.log(`Serve at http://localhost:${port}`);

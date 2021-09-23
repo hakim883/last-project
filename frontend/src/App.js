@@ -66,6 +66,13 @@ function App() {
     <BrowserRouter>
       <div className="grid-container">
         <header className="row">
+          
+                    
+                    
+                    
+                    
+                    
+                                                      
           <div>
             <button
               type="button"
@@ -74,7 +81,7 @@ function App() {
             >
               <i className="fa fa-bars"></i>
             </button>
-            <Link className="brand" to="/">
+            <Link className="brand"  to="/">
             <span className="A">A</span>dvice  <span className="A">E</span>nergie  <span className="A">M</span>odern
 
             </Link>
@@ -86,9 +93,25 @@ function App() {
               )}
             ></Route>
           </div>
-          <div>
-          <Link to="about">About Us </Link>
-<Link to="contact">Contact Us </Link>
+          
+          <nav>
+            {/* <input type= "checkbox"  id="check"/> 
+            <button
+              type="button"
+              className="checkbtn"
+              for="check"
+              // onClick={() => setSidebarIsOpen(true)}
+            >
+              <i className="fa fa-bars"></i>
+            </button> 
+            */}
+                    
+                    {/* <label for="check" className="checkbtn">
+                      <i className="fas fa-bars"></i>
+                    
+                    </label> */}
+          <Link to="about"  >About Us </Link>
+<Link to="contact" >Contact Us </Link>
 <Link to="all-postes"
 
 
@@ -100,10 +123,10 @@ function App() {
 
 
 >Postes </Link> 
-<Link to="all-products">Products </Link> 
+<Link to="all-products" >Products </Link> 
 {/* {/pro/$id} */}
 
-            <Link to="/cart">
+            <Link to="/cart" >
               Cart
               {cartItems.length > 0 && (
                 <span className="badge">{cartItems.length}</span>
@@ -176,7 +199,9 @@ function App() {
                 </ul>
               </div>
             )}
-          </div>
+          
+          
+          </nav>
         </header>
         <aside className={sidebarIsOpen ? 'open' : ''}>
           <ul className="categories">
@@ -317,7 +342,7 @@ function App() {
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">
-          <div><a href={`mailto:${"hakimchaabani6@gmail.com"}`} className="c">© 2021 Hakim , All right reserved</a></div>{' '}
+          <div><a href={`mailto:${"hakimchaabani6@gmail.com"}`} >© 2021 Hakim , All right reserved</a></div>{' '}
         </footer>
       </div>
     </BrowserRouter>
