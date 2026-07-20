@@ -1,86 +1,3 @@
-// import express from 'express';
-// import mongoose from 'mongoose';
-// import productRouter from './routers/productRouter.js';
-// import userRouter from './routers/userRouter.js';
-// //import dotenv from 'dotenv';
-// import path from 'path';
-// import orderRouter from './routers/orderRouter.js';
-// import uploadRouter from './routers/uploadRouter.js';
-
-// //dotenv.config();
-
-// const app = express();
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// const url=`mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority`
-// mongoose.connect(url,{
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//  //useCreateIndex: true,
-// });
-
-// app.use('/api/uploads', uploadRouter);
-// app.use('/api/users', userRouter);
-// app.use('/api/products', productRouter);
-// app.use('/api/orders', orderRouter);
-// app.get('/api/config/paypal', (req, res) => {
-//   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
-// });
-//  app.get('/api/config/google', (req, res) => {
-//   res.send(process.env.GOOGLE_API_KEY || '');
-// });
-// const __dirname = path.resolve();
-// app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-// app.use(express.static(path.join(__dirname, '/frontend/build')));
-// app.get('*', (req, res) =>
-//   res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
-// );
-// app.get('/', (req, res) => {
-//   res.send('Server is ready');
-// });
-// app.use((err, req, res, next) => {
-//   res.status(500).send({ message: err.message });
-// });
-
-// const port = process.env.PORT || 5000;
-// app.listen(port, () => {
-//   console.log(`Serve at http://localhost:${port}`);
-// });
-
-
-
-
-
-
-
-
-
-// const stripe = require('stripe')('sk_test_51Jb6bHLzYjOYkbklPTt85yUJhbY3eMj4kOX31w7qQia640aqRwfnNrlbPNK2DE3byBpc4McaIhh2uo3Ll9CbYevw00xlY4uaM9');
-
-
-
-
-
-
-
-
-
-
-
-
-// // const app = express();
-// // app.use(express.json());
-// // app.use(express.urlencoded({ extended: true }));
-// // const url=`mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority`
-// // mongoose.connect(url,{
-// //   useNewUrlParser: true,
-// //   useUnifiedTopology: true,
-// //   //useCreateIndex: true,
-// // });
-
-
-
-
 import http from 'http';
 import { Server } from 'socket.io';
 import express from 'express';
@@ -117,7 +34,9 @@ import uploadRouter from './routers/uploadRouter.js';
 // const categoryRoutes = require('./routes/category');
 // const tagRoutes = require('./routes/tag');
 
-//dotenv.config();
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
@@ -167,7 +86,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.get("/api/", (req, res) =>{
 //   res.send("coding with hakim..");
 // });
-const url=`mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URL || 'mongodb://localhost/last-project';
  mongoose.connect(url,{
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -187,18 +106,11 @@ app.use('/api/orders', orderRouter);
 //app.use('/api/postMessages',postMessageRoutes)
 
 //app.use('/api/orders', orderRouter);
-const PAYPAL_CLIENT_ID=`REDACTED_PAYPAL_CLIENT_ID`
 app.get('/api/config/paypal', (req, res) => {
-  res.send(PAYPAL_CLIENT_ID || 'sb');
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
-// const g=`REDACTED_GOOGLE_MAPS_KEY`
-// app.get('/api/config/google', (req, res) => {
-//   res.send( || '');
-// });
-// const GOOGLE_API_KEY=`REDACTED_GOOGLE_MAPS_KEY`
-const GOOGLE_API_KEY=`REDACTED_GOOGLE_MAPS_KEY`
 app.get('/api/config/google', (req, res) => {
-  res.send(GOOGLE_API_KEY || '');
+  res.send(process.env.GOOGLE_API_KEY || '');
 });
 
 
